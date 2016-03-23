@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Server Compiler/title>
+<style type="text/css" media="screen">
+    #editor { 
+        height: 500px;
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+<div id="editor"></div>
+<button onclick="compile()">Compile</button>
+<div id='reply'>Server Reply Here</div>
+<script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/java");
+    function compile()
+    {
+        var s = editor.getValue();
+        var req = new XMLHttpRequest();
+        req.open("GET", "http://servercompilervinchanbat.appspot.com/compiler?content="+s, true)
+        req.onreadystatechange = function() {
+            if(req.readyState == 4)
+            {
+                document.getElementById('reply').innerHTML = req.responseText;
+                console.log(req.responseText);
+            }
+        }
+        req.send();
+    }
+</script>
+</body>
+</html>
